@@ -16,7 +16,7 @@ public class Auto_RedLeft extends AutonomousMethods {
 
         robot.initialize(hardwareMap, telemetry);
 
-        while (!isStarted()) {;
+        while (!isStarted()) {
             robot.getPropLocation();
             telemetry.addLine("Location: " + Globals.PROP_LOCATION.toString());
             telemetry.update();
