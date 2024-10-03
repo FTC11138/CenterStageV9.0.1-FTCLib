@@ -187,6 +187,32 @@ public class CenterStageTeleOp_Solo extends CommandOpMode {
         lastLiftChangeJoystickDown = liftChangeJoystickDown;
 
 
+
+        double fingerX = 0, fingerY = 0;
+
+        if (gamepad1.touchpad_finger_1) {
+            fingerX = gamepad1.touchpad_finger_1_x;
+            fingerY = gamepad1.touchpad_finger_1_y;
+        } else if (gamepad1.touchpad_finger_2) {
+            fingerX = gamepad1.touchpad_finger_2_x;
+            fingerY = gamepad1.touchpad_finger_2_y;
+        }
+
+        if (fingerX > 0 && gamepad1.touchpad) {
+            cs.schedule(
+                    new ClawCommand(IntakeSubsystem.ClawState.CLOSED, IntakeSubsystem.ClawSide.BOTH)
+                            .alongWith(new InstantCommand(Globals::stopIntaking))
+            );
+        }
+        if (fingerX < 0 && gamepad1.touchpad) {
+            cs.schedule(
+                    new ClawCommand(IntakeSubsystem.ClawState.OPEN, IntakeSubsystem.ClawSide.BOTH)
+                            .alongWith(new InstantCommand(Globals::startIntaking))
+            );
+        }
+
+
+
         if (g1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.2) {
             cs.schedule(new IntakeCommand(IntakeSubsystem.IntakeState.IN));
         }

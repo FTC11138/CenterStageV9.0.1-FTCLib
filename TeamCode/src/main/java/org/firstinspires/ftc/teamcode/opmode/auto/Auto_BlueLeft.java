@@ -28,6 +28,7 @@ public class Auto_BlueLeft extends AutonomousMethods {
         Globals.SIDE  = Globals.Side.BACKDROP;
 
         robot.initialize(hardwareMap, telemetry);
+        CommandScheduler.getInstance().reset();
 
         while (!isStarted()) {
             robot.getPropLocation();

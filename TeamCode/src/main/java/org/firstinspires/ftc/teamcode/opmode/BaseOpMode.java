@@ -49,7 +49,7 @@ public class BaseOpMode extends CommandOpMode {
                 break;
         }
 
-        
+
 
     }
 

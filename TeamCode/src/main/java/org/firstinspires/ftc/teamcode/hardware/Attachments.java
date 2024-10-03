@@ -18,6 +18,7 @@ import org.firstinspires.ftc.teamcode.hardware.subsystems.HangSubsystem;
 import org.firstinspires.ftc.teamcode.hardware.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.hardware.subsystems.LiftSubsystem;
 import org.firstinspires.ftc.teamcode.util.Globals;
+import org.firstinspires.ftc.teamcode.vision.Stack_VisionProcessor;
 import org.firstinspires.ftc.teamcode.vision.VisionProcessor;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
@@ -27,13 +28,14 @@ import java.util.ArrayList;
 public class Attachments extends MecanumDrive {
 
 
-    private Telemetry telemetry;
+    public Telemetry telemetry;
     private ElapsedTime runtime = new ElapsedTime();
 
     public WebcamName webcam;
     public VisionProcessor visionProcessor;
     public VisionPortal visionPortal;
     public AprilTagProcessor aprilTagProcessor;
+    public Stack_VisionProcessor stackProcessor;
 
     ArrayList<Subsystem> subsystems = new ArrayList<>();
 
@@ -88,6 +90,7 @@ public class Attachments extends MecanumDrive {
             setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            startCamera(hardwareMap);
         } else {
             startCamera(hardwareMap);
         }
@@ -110,12 +113,14 @@ public class Attachments extends MecanumDrive {
     private void startCamera(HardwareMap hardwareMap) {
 
         visionProcessor = new VisionProcessor();
+        stackProcessor = new Stack_VisionProcessor();
         aprilTagProcessor = new AprilTagProcessor.Builder().build();
         aprilTagProcessor.setDecimation(2);
         visionPortal = new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, names.webcam))
                 .addProcessor(aprilTagProcessor)
                 .addProcessor(visionProcessor)
+//                .addProcessor(stackProcessor)
                 .build();
 
     }
